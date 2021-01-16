@@ -5,6 +5,8 @@ export const Game = () => {
   const [message, setMessage] = useState("");
   const [showMsg, setShowMsg] = useState(false);
   let [guessesLeft, setGuessesLeft] = useState(3);
+  const [inputVal, setInputVal] = useState("Submit");
+  const [disableInput, setDisableInput] = useState(false);
 
   let min = 1,
     max = 10;
@@ -21,12 +23,11 @@ export const Game = () => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
 
-  const onClick = () => {
-    
+  const onClick = (e) => {
     let guess = parseInt(guessVal);
     let winningNum = getRandomNum(min, max);
-    console.log(typeof guessVal);
-    console.log(winningNum);
+    // console.log(typeof guessVal);
+    // console.log(winningNum);
     // if (guessVal == winningNum) {
     //   console.log("correct");
     // } else {
@@ -40,7 +41,9 @@ export const Game = () => {
     } else {
       // Check if won
       if (guess === winningNum) {
+        setInputVal("Play Again");
         // Game over - won
+        setDisableInput(true);
         setShowMsg(true);
         setMessage(`${winningNum} is Correct, YOU'VE WON!`);
       } else {
@@ -48,6 +51,9 @@ export const Game = () => {
         setGuessesLeft(guessesLeft - 1);
 
         if (guessesLeft === 0) {
+          setDisableInput(true);
+          setInputVal("Play Again");
+
           // Game over - lost
           setShowMsg(true);
           setMessage(
@@ -80,10 +86,11 @@ export const Game = () => {
       <input
         type="number"
         value={guessVal}
+        disabled={disableInput}
         onChange={onChange}
         placeholder="Enter your guess..."
       />
-      <input type="submit" onClick={onClick} value="Submit" />
+      <input type="submit" onClick={onClick} value={inputVal} />
       <p className="message">{showMsg ? message : ""}</p>
     </>
   );
