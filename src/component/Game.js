@@ -77,6 +77,13 @@ export const Game = () => {
     }
   };
 
+  const onMouseUp = (e) => {
+    if (e.target.value === "Play Again") {
+      setMessage("");
+      window.location.reload();
+    }
+  };
+
   return (
     <>
       <p>
@@ -90,7 +97,12 @@ export const Game = () => {
         onChange={onChange}
         placeholder="Enter your guess..."
       />
-      <input type="submit" onClick={onClick} value={inputVal} />
+      <input
+        type="submit"
+        onClick={onClick}
+        onMouseDown={onMouseUp}
+        value={inputVal}
+      />
       <p className="message">{showMsg ? message : ""}</p>
     </>
   );
